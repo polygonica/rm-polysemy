@@ -2,7 +2,10 @@ FROM ubuntu:20.04
 
 # inpiration 1: https://github.com/jupyter/docker-stacks/blob/master/pyspark-notebook/Dockerfile
 # inspiration 2: https://github.com/myzhang1029/toyplot_notebook/blob/2a98b8903f752a3ad6cf6f86f875e86150504ad8/Dockerfile
-# run with "docker run -p 8888:8888 <image hash>"
+# build image with "docker build -t rm-jupyter ."
+# run with "docker run -p 8888:8888 -v ~/jupyter_src:/home/mamba/jupyter_src rm-jupyter"
+#   above assumes a folder named ~/jupyter_src for jupyter source in $HOME
+#   and an image built to image name rm-jupyter
 # connect on the Host PC at using the 127.0.0.1 URL provided by Jupyter
 
 # Fix DL4006, also source micromamba bashrc changes
@@ -186,7 +189,8 @@ RUN micromamba install -y -n base -c conda-forge \
         xeus-cling \
         xlrd \
         'pyarrow=4.0.*' \
-        pyspark
+        pyspark \
+        psycopg2
 
 # Install Tensorflow for if target architecture is not ARM
 # ARM64 does not have Tensorflow in conda-forge yet
